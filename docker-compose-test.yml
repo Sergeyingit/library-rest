@@ -4,7 +4,7 @@ services:
   library-db:
     image: mysql:5.7
     restart: always
-    container_name: dev-library-db
+    container_name: library-db
     ports:
       - "3307:3306"
     environment:
