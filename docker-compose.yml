@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+  library-app:
+    build:
+      context: .
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+    restart: always
+    depends_on:
+      - library-db
+
+  library-db:
+    image: mysql:5.7
+    restart: always
+    container_name: library-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: "library_db"
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: "root"
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
