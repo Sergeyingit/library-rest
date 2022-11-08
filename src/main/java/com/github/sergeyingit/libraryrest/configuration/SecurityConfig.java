@@ -28,6 +28,9 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers("/api/**").permitAll()
+//                        .antMatchers("/swagger**").permitAll()
+                        .antMatchers("/swagger**/**").permitAll()
+                        .antMatchers("/v3/api-docs**/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServerConfigurer -> resourceServerConfigurer
                         .jwt(jwtConfigurer -> jwtConfigurer
@@ -68,6 +71,7 @@ public class SecurityConfig {
             }
         };
     }
+
 
 
 
