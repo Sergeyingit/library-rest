@@ -14,9 +14,10 @@ public class CheckingUserRightsImpl implements CheckingUserRights{
     @Override
     public AccessType checkUser(String username, Jwt principal){
         String name = principal.getClaimAsString("preferred_username");
-        User currentUser = userService.findByUsername(name);
 
-        User requestUser = userService.findByUsername(username);
+        User currentUser = userService.findByUsernameCheck(name);
+        User requestUser = userService.findByUsernameCheck(username);
+
         if (requestUser == null) {
 
             return AccessType.NOT_FOUND;

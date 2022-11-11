@@ -35,6 +35,14 @@ public class UsersRESTController {
     @Autowired
     private CheckingUserRights checkingUserRights;
 
+    @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UserDto> getUsers() {
+        List<User> users = userService.findAll();
+        List<UserDto> userDtos = users.stream().map(user -> Convert.UserToUserDto(user)).collect(Collectors.toList());
+        return userDtos;
+    }
+
     @GetMapping("/{username}")
     @PreAuthorize("hasRole('USER')")
     public UserDto getUser(@PathVariable("username") String username, @Parameter(hidden = true) @AuthenticationPrincipal Jwt principal) throws NoSuchUserException, NoAccessException {
