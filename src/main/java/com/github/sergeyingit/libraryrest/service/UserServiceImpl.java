@@ -5,12 +5,18 @@ import com.github.sergeyingit.libraryrest.entity.User;
 import com.github.sergeyingit.libraryrest.exception_handling.NoSuchBookException;
 import com.github.sergeyingit.libraryrest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+
 
 @Service
+//@CacheConfig(cacheNames = "uc")
 public class UserServiceImpl implements UserService{
 
     @Autowired
@@ -20,30 +26,45 @@ public class UserServiceImpl implements UserService{
     private BookService bookService;
 
     @Override
+//    @Cacheable
     public List<User> findAll() {
         return  userRepository.findAll();
     }
 
-    @Override
-    public User findById(int id) {
-        return userRepository.findById(id).orElse(null);
-    }
 
+    /* Не кэшируется,
+     * т.к. кэш не работает при вызове методов из того же класса
+     * и вообще не очень надо
+     */
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    /*
+     * Кэшируется метод для проверки доступа пользователя
+     * т.к. на каждую операцию пользователя происходит проверка
+     */
     @Override
+    @Cacheable(value = "access")
+    public User findByUsernameCheck(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    /*
+     * Кэш access обновляет ключ username
+     * ( чтобы небыло ситуации когда пользователь с токеном,
+     * но которого нет в таблице получил отказ в доступе,
+     * а после добавления его в таблицу получил снова отказ из-за кэша access)
+     */
+    @Override
+//    @Caching(put = {@CachePut(key = "#user.id"), @CachePut(value = "access", key = "#user.username")})
+    @CachePut(value = "access", key = "#user.username")
     public User save(User user) {
         return userRepository.save(user);
     }
 
 
-    @Override
-    public void delete(User user) {
-        userRepository.delete(user);
-    }
 
     @Override
     public List<Book> findAllUserBooks(String username) {
@@ -80,7 +101,6 @@ public class UserServiceImpl implements UserService{
         } else {
             throw new NoSuchBookException("The library is currently out of these books");
         }
-
         return user.getBooks();
     }
 

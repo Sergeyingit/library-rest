@@ -57,7 +57,6 @@ public class BooksRESTController {
     @DeleteMapping("/{bookId}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteBooks(@PathVariable int bookId) {
-
         bookService.delete(bookId);
     }
 }
