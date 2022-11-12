@@ -53,3 +53,10 @@ services:
     ports:
       - "6379:6379"
     restart: always
+
+  client:
+    build:
+      context: ./client
+    restart: always
+    ports:
+      - "8081:80"
