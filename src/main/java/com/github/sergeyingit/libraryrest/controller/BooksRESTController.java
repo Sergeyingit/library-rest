@@ -1,6 +1,7 @@
 package com.github.sergeyingit.libraryrest.controller;
 
 import com.github.sergeyingit.libraryrest.dto.BookAdminDto;
+import com.github.sergeyingit.libraryrest.dto.BookUserDto;
 import com.github.sergeyingit.libraryrest.dto.util.Convert;
 import com.github.sergeyingit.libraryrest.entity.Book;
 import com.github.sergeyingit.libraryrest.exception_handling.NoSuchBookException;
@@ -24,8 +25,8 @@ public class BooksRESTController {
     private BookService bookService;
 
     @GetMapping("")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<BookAdminDto> getBooks() {
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    public List<BookAdminDto> getBooksAdminDto() {
         List<Book> books = bookService.findAll();
         List<BookAdminDto> bookAdminDtos = books.stream().map(book -> Convert.BookToBookAdminDto(book)).collect(Collectors.toList());
         return bookAdminDtos;

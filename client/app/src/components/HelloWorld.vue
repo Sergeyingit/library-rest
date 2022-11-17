@@ -80,6 +80,9 @@
         </a>
       </li>
     </ul>
+    <div id="app">
+
+    </div>
   </div>
 </template>
 

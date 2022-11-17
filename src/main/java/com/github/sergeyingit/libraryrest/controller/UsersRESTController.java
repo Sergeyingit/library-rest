@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 @SecurityRequirement(name = "Bearer Authentication")
+@CrossOrigin(origins = "http://localhost:8080")
 public class UsersRESTController {
 
     @Autowired
