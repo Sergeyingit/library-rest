@@ -39,7 +39,7 @@
                 </div>
                 <div v-else>
                     <p>У вас нет книг.</p>
-                    <p><a href="/books">Посмотреть список книг</a></p>
+                    <p><router-link to="/books">Посмотреть список книг</router-link></p>
                 </div>
             </div>
         </div>
@@ -49,8 +49,6 @@
 <script>
     import axios from 'axios';
     import Alert from './Alert.vue';
-
-    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 
     export default {
         name: 'Profile',
@@ -73,7 +71,7 @@
         },
         methods: {
             getUser() {
-                const path = 'http://localhost:8081/api/users/' + this.userCurrent.username;
+                const path = process.env.SERVER_RESOURCE + '/api/users/' + this.userCurrent.username;
 
                 axios.get(path)
                 .then((result) => {
@@ -88,7 +86,7 @@
                 });
             },
             removeBook(bookID) {
-                const path = `http://localhost:8081/api/users/` + this.userCurrent.username + `user/books/${bookID}`;
+                const path = process.env.SERVER_RESOURCE + `/api/users/` + this.userCurrent.username + `user/books/${bookID}`;
 
                 axios.delete(path)
                 .then(() => {

@@ -83,44 +83,19 @@ export default {
         alert: Alert,
     },
     methods: {
-        // checkUserBooks(books) {
-            
-            
-        //     let bookDtoList = [];
-
-        //     for(let i = 0; books.length > 0; i++) {
-        //         let bookDto = {
-        //             id: books[i].id,
-        //             name: books[i].name,
-        //             author: books[i].author,
-        //             quantityCount: books[i].quantityCount,
-        //             isUserHas: books[i].users.find(user => user.username === this.userCurrent.username) ? true : false
-        //         }
-                
-        //         bookDtoList[i] = bookDto;
-                
-        //     }
-        //     this.books = bookDtoList;
-            
-        // },
         getBooks() {
-            const path = 'http://localhost:8081/api/books';
+            const path = process.env.SERVER_RESOURCE + '/api/books';
             axios.get(path)
             .then((result) => {
-               
                 this.books = result.data;
-                // this.checkUserBooks(result.data);
-                // console.log(this.books);
             })
             .catch((error) => {
                 this.message = 'not result';
-                
-
             })
         
         },
         getUserBooks() {
-            const path = 'http://localhost:8081/api/users/' + this.userCurrent.username + '/books';
+            const path = process.env.SERVER_RESOURCE + '/api/users/' + this.userCurrent.username + '/books';
 
             axios.get(path)
             .then((result) => {
@@ -135,7 +110,7 @@ export default {
             });
         },
         addToUser(book) {
-            const path = 'http://localhost:8081/api/users/' + this.userCurrent.username + '/books/';
+            const path = process.env.SERVER_RESOURCE + '/api/users/' + this.userCurrent.username + '/books/';
 
             const payload = {
                 id: book.id,
@@ -163,7 +138,7 @@ export default {
             });
         },
         onDeleteBookFromUser(book) {
-            const path = 'http://localhost:8081/api/users/' + this.userCurrent.username + '/books/' + book.id;
+            const path = process.env.SERVER_RESOURCE + '/api/users/' + this.userCurrent.username + '/books/' + book.id;
 
             axios.delete(path)
             .then(() => {

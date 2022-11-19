@@ -39,7 +39,7 @@ function removeCurrentUserFromLocalStorage() {
 };
 
 function checkIsNewUserAndPost(username) {
-  const path = 'http://localhost:8081/api/users/' + username;
+  const path = process.env.SERVER_RESOURCE + '/api/users/' + username;
   
   axios.get(path)
   .then(() => {
@@ -47,7 +47,7 @@ function checkIsNewUserAndPost(username) {
   })
   .catch((error) => {
     if (error.response.status === 404) {
-      const path = 'http://localhost:8081/api/users'
+      const path = process.env.SERVER_RESOURCE + '/api/users'
       const payload = {
         "username": username,
       }
@@ -70,9 +70,10 @@ function setTokenToHeader(token) {
 
 }
 const initOptions = {
-  url: 'http://localhost:8082/auth', realm: 'my_realm', clientId: 'my_client', onLoad: 'login-required'
+  url: process.env.SERVER_AUTH + '/auth', realm: 'my_realm', clientId: 'my_client', onLoad: 'login-required'
 }
-
+console.log("process.env.SERVER_AUTH");
+console.log(process.env.SERVER_AUTH);
 const keycloak = Keycloak(initOptions);
 // let token;
 keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
@@ -82,10 +83,7 @@ keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
   } else {
       console.log("auth");
       setCurrentUserToLocalStorage(keycloak);
-      // let username = keycloak.tokenParsed.preferred_username;
-      // axios.defaults.headers.common['Authorization'] = 'Bearer ' + keycloak.token;
 
-      // let result = getUser(username);
       setTokenToHeader(keycloak.token);
       checkIsNewUserAndPost(keycloak.tokenParsed.preferred_username);
 
@@ -120,33 +118,4 @@ keycloak.init({ onLoad: initOptions.onLoad }).then((auth) => {
   removeCurrentUserFromLocalStorage();
 
 });
-console.log(JSON.parse(localStorage.getItem('userCurrent')));
 
-// if(!user) {
-//   const path = 'http://localhost:8081/api/users'
-//   const payload = {
-//     "username": "user",
-//   }
-//   axios.post(path, payload)
-//   .then(() => {
-//     console.log("success");
-//   })
-//   .catch((error) => {
-      
-//       console.log(error);
-     
-//   });
-// }
-// console.log(user);
-// let userCurrent = localStorage.getItem('userCurrent'); 
-// if(userCurrent === null) {
-//   // window.location.replace("http://localhost:8080/");
-
-// }
-/* eslint-disable no-new */
-// new Vue({
-//   el: '#app',
-//   router,
-//   components: { App },
-//   template: '<App/>',
-// });
