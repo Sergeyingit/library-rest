@@ -36,7 +36,7 @@ public class UsersRESTController {
     @Autowired
     private CheckingUserRights checkingUserRights;
 
-    @GetMapping()
+    @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserDto> getUsers() {
         List<User> users = userService.findAll();

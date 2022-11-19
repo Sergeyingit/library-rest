@@ -205,6 +205,7 @@ export default {
                 'author': '',
                 'quantity': '',
                 'quantityCount': '',
+                'users': [],
 
             },
             message: '',
@@ -292,6 +293,7 @@ export default {
                 author: this.editForm.author,
                 quantity: this.editForm.quantity,
                 quantityCount: this.editForm.quantityCount,
+                users: this.editForm.users,
             };
             this.updateBook(payload);
         },
