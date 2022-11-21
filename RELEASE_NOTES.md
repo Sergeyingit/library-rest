@@ -1,5 +1,8 @@
 # RELEASE NOTES
 
+## 0.6.0-SNAPSHOT
+* L-5: add client application
+
 ## 0.5.0-SNAPSHOT
 * L-4: add redis and rights check caching
 

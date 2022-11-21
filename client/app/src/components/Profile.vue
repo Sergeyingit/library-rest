@@ -86,7 +86,7 @@
                 });
             },
             removeBook(bookID) {
-                const path = process.env.SERVER_RESOURCE + `/api/users/` + this.userCurrent.username + `user/books/${bookID}`;
+                const path = process.env.SERVER_RESOURCE + `/api/users/` + this.userCurrent.username + `/books/${bookID}`;
 
                 axios.delete(path)
                 .then(() => {
