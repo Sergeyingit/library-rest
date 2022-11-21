@@ -1,20 +1,6 @@
 version: '3.1'
 
 services:
-  library-db:
-    image: mysql:5.7
-    restart: always
-    container_name: library-db
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_DATABASE: "dev_library_db"
-      MYSQL_USER: "bestuser"
-      MYSQL_PASSWORD: "bestuser"
-      MYSQL_ROOT_PASSWORD: "root"
-    command: --character-set-server=utf8 --collation-server=utf8_general_ci
-    depends_on:
-      - keycloak-db
 
   keycloak-db:
     image: mysql:5.7
@@ -31,6 +17,7 @@ services:
 
   keycloak:
     image: jboss/keycloak
+    restart: always
     container_name: keycloak
     environment:
       DB_VENDOR: "MYSQL"
@@ -44,8 +31,21 @@ services:
       - "8082:8080"
     depends_on:
       - keycloak-db
-#    links:
-#      - "keycloak-db:keycloak-db"
+
+  library-db:
+    image: mysql:5.7
+    restart: always
+    container_name: library-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: "dev_library_db"
+      MYSQL_USER: "bestuser"
+      MYSQL_PASSWORD: "bestuser"
+      MYSQL_ROOT_PASSWORD: "root"
+    command: --character-set-server=utf8 --collation-server=utf8_general_ci
+    depends_on:
+      - keycloak
 
   redis:
     container_name: redis
@@ -53,3 +53,13 @@ services:
     ports:
       - "6379:6379"
     restart: always
+    depends_on:
+      - library-db
+
+
+  client:
+    build:
+      context: ./client
+    restart: always
+    ports:
+      - "8081:80"

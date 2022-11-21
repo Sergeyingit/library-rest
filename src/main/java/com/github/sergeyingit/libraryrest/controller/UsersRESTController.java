@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/users")
 @SecurityRequirement(name = "Bearer Authentication")
+@CrossOrigin(origins = "${client.url}")
 public class UsersRESTController {
 
     @Autowired
@@ -35,7 +36,7 @@ public class UsersRESTController {
     @Autowired
     private CheckingUserRights checkingUserRights;
 
-    @GetMapping()
+    @GetMapping("")
     @PreAuthorize("hasRole('ADMIN')")
     public List<UserDto> getUsers() {
         List<User> users = userService.findAll();

@@ -52,6 +52,11 @@ public class Convert {
         book.setAuthor(bookAdminDto.getAuthor());
         book.setQuantity(bookAdminDto.getQuantity());
         book.setQuantityCount(bookAdminDto.getQuantityCount());
+        List<UserDto> userDtos = bookAdminDto.getUsers();
+        if (userDtos != null) {
+            List<User> users = userDtos.stream().map(userDto -> Convert.UserDtoToUser(userDto)).collect(Collectors.toList());
+            book.setUsers(users);
+        }
         return book;
     }
 
