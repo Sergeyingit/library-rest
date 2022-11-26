@@ -19,11 +19,17 @@ import java.util.List;
 //@CacheConfig(cacheNames = "uc")
 public class UserServiceImpl implements UserService{
 
-    @Autowired
+//    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
+//    @Autowired
     private BookService bookService;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository, BookService bookService) {
+        this.userRepository = userRepository;
+        this.bookService = bookService;
+    }
 
     @Override
 //    @Cacheable

@@ -17,8 +17,13 @@ import java.util.stream.Collectors;
 //@CacheConfig(cacheNames = "bc")
 public class BookServiceImpl implements BookService{
 
-    @Autowired
+//    @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    public BookServiceImpl(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @Override
 //    @Cacheable
