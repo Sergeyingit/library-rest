@@ -47,9 +47,9 @@ exit
 ```
 
 должны появиться
-- admin ( с правами ADMIN и USER)
+- admin ( с правами ADMIN и USER), пароль admin
 
-- user (USER)
+- user (USER), пароль user
 
 в keycloak включена регистрация, новые юзеры создаются с ролью USER
 
